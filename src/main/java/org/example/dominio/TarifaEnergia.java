@@ -8,4 +8,9 @@ public class TarifaEnergia {
         this.estado = estado;
         this.precoKwh = precoKwh;
     }
+
+    @Override
+    public String toString() {
+        return "Estado: " + estado + ", Preço/kWh: " + precoKwh;
+    }
 }
