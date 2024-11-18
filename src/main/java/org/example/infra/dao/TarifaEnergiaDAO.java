@@ -17,28 +17,6 @@ public class TarifaEnergiaDAO implements RepositorioTarifas {
         conexao = new ConnectionFactory().getConnection();
     }
 
-//    @Override
-//    public ArrayList<TarifaEnergia> recuperarTarifas() {
-//        ArrayList<TarifaEnergia> tarifas = new ArrayList<>(); // Inicialize a lista
-//        try {
-//            String sql = "SELECT * FROM tb_tarifa_energia";
-//            PreparedStatement comandoDeSelecao = conexao.prepareStatement(sql);
-//            ResultSet resultados = comandoDeSelecao.executeQuery();
-//            while (resultados.next()) {
-//                TarifaEnergia tarifa = new TarifaEnergia(
-//                        resultados.getString("estado"),
-//                        resultados.getDouble("preco_kwh")
-//                );
-//                tarifas.add(tarifa);
-//            }
-//            resultados.close();
-//            comandoDeSelecao.close();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return tarifas; // Sempre retorna uma lista, mesmo que vazia
-//    }
-
     @Override
     public ArrayList<TarifaEnergia> recuperarTarifas() {
         ArrayList<TarifaEnergia> tarifas = new ArrayList<>();
@@ -52,7 +30,7 @@ public class TarifaEnergiaDAO implements RepositorioTarifas {
                 contador++;
                 TarifaEnergia tarifa = new TarifaEnergia(
                         resultados.getString("estado"),
-                        resultados.getDouble("preco_kwh")
+                            resultados.getDouble("preco_kwh")
                 );
                 tarifas.add(tarifa);
             }
