@@ -10,6 +10,6 @@ public class MyResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
-        return "MEU PAU É NANICO";
+        return "#";
     }
 }

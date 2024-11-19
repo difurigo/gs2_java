@@ -6,4 +6,9 @@ public class Endereco {
     private String numero;
     private String cidade;
     private String estado;
+
+    @Override
+    public String toString() {
+        return logradouro + ", " + numero + " - " + cidade + " (" + estado + ")";
+    }
 }

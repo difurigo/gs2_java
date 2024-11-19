@@ -2,20 +2,25 @@ package org.example;
 
 import org.example.dominio.*;
 import org.example.infra.dao.TarifaEnergiaDAO;
+import org.example.infra.dao.UsuarioDAO;
 
 import java.util.ArrayList;
 
 public class MainTeste {
     public static void main(String[] args) {
-        TarifaEnergiaDAO dao = new TarifaEnergiaDAO();
-        ArrayList<TarifaEnergia> tarifas = dao.recuperarTarifas();
-        dao.fechar();
+//        TarifaEnergiaDAO dao = new TarifaEnergiaDAO();
+//        ArrayList<TarifaEnergia> tarifas = dao.recuperarTarifas();
+//        dao.fechar();
+//
+//        System.out.println("Total de tarifas recuperadas: " + tarifas.size()); // Log para verificar o tamanho da lista
+//
+//        for (TarifaEnergia tarifa : tarifas) {
+//            System.out.println(tarifa);
+//        }
 
-        System.out.println("Total de tarifas recuperadas: " + tarifas.size()); // Log para verificar o tamanho da lista
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario usuario = new Usuario();
 
-        for (TarifaEnergia tarifa : tarifas) {
-            System.out.println(tarifa);
-        }
 //        // Criando bens (Eletrodoméstico, Gás e Carro)
 //        Eletrodomestico geladeira = new Eletrodomestico("Geladeira Top", "Eletrodoméstico", 0.2, 10, "Eletrolux", 150);
 //        Gas botijao = new Gas("Botijão de Gás", "GLP", 0.3, 4, 13, "glp");

@@ -20,4 +20,5 @@ public class Residencia {
     public ArrayList<Bem> getBens() {
         return bens;
     }
+
 }
