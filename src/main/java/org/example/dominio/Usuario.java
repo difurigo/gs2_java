@@ -3,14 +3,11 @@ package org.example.dominio;
 public class Usuario {
     private String nome;
     private String email;
-    private Endereco endereco;
-    private Residencia residencia;
+    private RepositorioUsuarios repositorioUsuarios;
 
-    public Usuario(String nome, String email, Endereco endereco, Residencia residencia) {
+    public Usuario(String nome, String email) {
         this.nome = nome;
         this.email = email;
-        this.endereco = endereco;
-        this.residencia = residencia;
     }
 
     public String getNome() {
@@ -21,11 +18,7 @@ public class Usuario {
         return email;
     }
 
-    public String getEndereco() {
-        return endereco.toString();
-    }
-
-    public int getIdResidencia() {
-        return 0; // residencia.getId();
+    public int getId() {
+        return repositorioUsuarios.buscarIdUsuario(email);
     }
 }

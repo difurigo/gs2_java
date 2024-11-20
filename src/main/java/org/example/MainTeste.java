@@ -19,7 +19,7 @@ public class MainTeste {
 //        }
 
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Usuario usuario = new Usuario();
+        Usuario usuario = new Usuario("Diego", "furigo9diego@gmai.com");
 
 //        // Criando bens (Eletrodoméstico, Gás e Carro)
 //        Eletrodomestico geladeira = new Eletrodomestico("Geladeira Top", "Eletrodoméstico", 0.2, 10, "Eletrolux", 150);

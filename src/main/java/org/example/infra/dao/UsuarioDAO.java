@@ -20,12 +20,10 @@ public class UsuarioDAO implements RepositorioUsuarios {
     @Override
     public void adicionar(Usuario usuario) {
         try {
-            String sql = "INSERT INTO tb_usuario (id_residencia, nome, email, endereco) VALUES(?, ?, ?)";
+            String sql = "INSERT INTO tb_usuario (nome, email) VALUES(?, ?)";
             PreparedStatement comandoDeInsercao = conexao.prepareStatement(sql);
-            comandoDeInsercao.setInt(1, usuario.getIdResidencia());
-            comandoDeInsercao.setString(2, usuario.getNome());
-            comandoDeInsercao.setString(3, usuario.getEmail());
-            comandoDeInsercao.setString(4, usuario.getEndereco());
+            comandoDeInsercao.setString(1, usuario.getNome());
+            comandoDeInsercao.setString(2, usuario.getEmail());
             comandoDeInsercao.execute();
             comandoDeInsercao.close();
         }catch(SQLException e) {
@@ -52,9 +50,7 @@ public class UsuarioDAO implements RepositorioUsuarios {
             ResultSet resultados = comandoDeSelecao.executeQuery();
             while(resultados.next()) {
                 usuario = new Usuario(resultados.getString("nome"),
-                        resultados.getString("email"),
-                        resultados.getObject("endereco", Endereco.class),
-                        resultados.getString("id_residencia"));
+                        resultados.getString("email"));
             }
             resultados.close();
             comandoDeSelecao.close();
@@ -62,5 +58,44 @@ public class UsuarioDAO implements RepositorioUsuarios {
             throw new RuntimeException(e);
         }
         return usuario;
+    }
+
+    @Override
+    public Usuario buscarUsuarioPorId(int idUsuario) {
+        Usuario usuario = null;
+        try {
+            String sql = "SELECT * FROM tb_usuario WHERE id_usuario = ?";
+            PreparedStatement comandoDeSelecao = conexao.prepareStatement(sql);
+            comandoDeSelecao.setInt(1, idUsuario);
+            ResultSet resultados = comandoDeSelecao.executeQuery();
+            while(resultados.next()) {
+                usuario = new Usuario(resultados.getString("nome"),
+                        resultados.getString("email"));
+            }
+            resultados.close();
+            comandoDeSelecao.close();
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return usuario;
+    }
+
+    @Override
+    public int buscarIdUsuario(String email) {
+        int idUsuario = 0;
+        try {
+            String sql = "SELECT * FROM tb_usuario WHERE email = ?";
+            PreparedStatement comandoDeSelecao = conexao.prepareStatement(sql);
+            comandoDeSelecao.setString(1, email);
+            ResultSet resultados = comandoDeSelecao.executeQuery();
+            while(resultados.next()) {
+                idUsuario = resultados.getInt("id_usuario");
+            }
+            resultados.close();
+            comandoDeSelecao.close();
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return idUsuario;
     }
 }

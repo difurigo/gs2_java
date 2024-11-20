@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 public class CalculadoraEcoLar {
     private RepositorioTarifas repositorioTarifas;
+    private Residencia residencia;
+    private double emissao;
+    private double gasto;
 
-    public CalculadoraEcoLar(RepositorioTarifas repositorioTarifas) {
+    public CalculadoraEcoLar(RepositorioTarifas repositorioTarifas, Residencia residencia) {
         this.repositorioTarifas = repositorioTarifas;
+        this.residencia = residencia;
     }
 
-    public CalculadoraEcoLar() {
-    }
-
-    public double calcularEmissaoCO2(Residencia residencia) {
+    private double calcularEmissaoCO2(Residencia residencia) {
         ArrayList<Bem> bens = residencia.getBens();
         double totalEmissaoCO2 = 0.0;
 
@@ -35,7 +36,7 @@ public class CalculadoraEcoLar {
         return totalEmissaoCO2;
     }
 
-    public double calcularGastoEnergia(Residencia residencia) {
+    private double calcularGastoEnergia(Residencia residencia) {
         ArrayList<Bem> bens = residencia.getBens();
         double totalGastoEnergetico = 0.0;
 
@@ -51,5 +52,15 @@ public class CalculadoraEcoLar {
             }
         }
         return totalGastoEnergetico;
+    }
+
+    public double getEmissao() {
+        emissao = calcularEmissaoCO2(residencia);
+        return emissao;
+    }
+
+    public double getGasto() {
+        gasto = calcularGastoEnergia(residencia);
+        return gasto;
     }
 }

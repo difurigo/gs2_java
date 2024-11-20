@@ -25,20 +25,17 @@ public class TarifaEnergiaDAO implements RepositorioTarifas {
             PreparedStatement comandoDeSelecao = conexao.prepareStatement(sql);
             ResultSet resultados = comandoDeSelecao.executeQuery();
 
-            int contador = 0; // Para contar o número de linhas recuperadas
             while (resultados.next()) {
-                contador++;
                 TarifaEnergia tarifa = new TarifaEnergia(
                         resultados.getString("estado"),
                             resultados.getDouble("preco_kwh")
                 );
                 tarifas.add(tarifa);
             }
-            System.out.println("Linhas recuperadas: " + contador); // Verificar quantas linhas foram recuperadas
             resultados.close();
             comandoDeSelecao.close();
         } catch (SQLException e) {
-            e.printStackTrace(); // Mostra o erro no console
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         return tarifas;
