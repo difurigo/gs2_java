@@ -1,5 +1,8 @@
 package org.example.dominio;
 
+import org.example.infra.dao.BemDAO;
+import org.example.infra.dao.GastoEnergeticoDAO;
+
 import java.util.ArrayList;
 
 public class CalculadoraEcoLar {
@@ -7,6 +10,7 @@ public class CalculadoraEcoLar {
     private Residencia residencia;
     private double emissao;
     private double gasto;
+    private ArrayList<Bem> bens;
 
     public CalculadoraEcoLar(RepositorioTarifas repositorioTarifas, Residencia residencia) {
         this.repositorioTarifas = repositorioTarifas;
@@ -42,5 +46,17 @@ public class CalculadoraEcoLar {
         }
 
         return totalGastoEnergetico;
+    }
+
+    public double getEmissao (int idResidencia) {
+        bens = new BemDAO().buscarBens(idResidencia);
+        emissao = calcularEmissaoCO2(bens);
+        return emissao;
+    }
+
+    public double getGasto (int idResidencia) {
+        bens = new BemDAO().buscarBens(idResidencia);
+        gasto = calcularGastoEnergia(bens);
+        return gasto;
     }
 }

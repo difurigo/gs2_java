@@ -6,18 +6,26 @@ public class Usuario {
     private int id;
     private String senha;
 
-
+    // Construtor padrão necessário para desserialização de JSON
     public Usuario() {
+    }
+
+    // Construtor que inicializa os atributos
+    public Usuario(int idUsuario, String nomeUsuario, String emailUsuario, String senhaUsuario) {
+        this.id = idUsuario;
+        this.nome = nomeUsuario;
+        this.email = emailUsuario;
+        this.senha = senhaUsuario;
+    }
+
+    // Getters e setters
+    public String getSenha() {
+        return senha;
     }
 
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-    public String getSenha() {
-        return senha;
-    }
-
 
     public int getId() {
         return id;
@@ -27,16 +35,19 @@ public class Usuario {
         this.id = id;
     }
 
-    public Usuario(String nome, String email) {
-        this.nome = nome;
-        this.email = email;
-    }
-
     public String getNome() {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

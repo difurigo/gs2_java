@@ -19,6 +19,8 @@ public class Residencia {
         this.numResidencia = numResidencia;
     }
 
+
+
     public int getResidenciaId() {
         return residenciaId;
     }
@@ -66,5 +68,7 @@ public class Residencia {
     public void setNumResidencia(int numResidencia) {
         this.numResidencia = numResidencia;
     }
+
+
 }
 

@@ -16,14 +16,18 @@ public class GastoEnergeticoDAO implements RepositorioGastosEnergeticos {
         conexao = new ConnectionFactory().getConnection();
     }
 
+    public GastoEnergeticoDAO() {
+
+    }
+
     @Override
     public void adcionar(int idResidencia, CalculadoraEcoLar resultados) {
         try {
             String sql = "INSERT INTO tb_gasto_energetico (id_residencia, emissao, gasto) VALUES(?, ?, ?)";
             PreparedStatement comandoDeInsercao = conexao.prepareStatement(sql);
             comandoDeInsercao.setInt(1, idResidencia);
-            comandoDeInsercao.setDouble(2, resultados.getEmissao());
-            comandoDeInsercao.setDouble(3, resultados.getGasto());
+            comandoDeInsercao.setDouble(2, resultados.getEmissao(idResidencia));
+            comandoDeInsercao.setDouble(3, resultados.getGasto(idResidencia));
             comandoDeInsercao.execute();
             comandoDeInsercao.close();
         }catch(SQLException e) {

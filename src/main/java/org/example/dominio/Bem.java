@@ -1,6 +1,6 @@
 package org.example.dominio;
 
-public abstract class Bem {
+public class Bem {
     private int bemId;
     private Residencia residencia;
     private String tipoBem;
@@ -12,6 +12,9 @@ public abstract class Bem {
     private double quantidadeMensal;
     private double emissaoCO2;
     private double potencia;
+
+    public Bem(int bemId, int residenciaId, String tipoBem, String nomeBem, double horasDiarias, String tipoVeiculo, double kmMensal, String tipoGas, double quantidadeMensal, double emissaoCo2, double potencia) {
+    }
 
     public double getPotencia() {
         return potencia;
@@ -37,8 +40,8 @@ public abstract class Bem {
         this.bemId = bemId;
     }
 
-    public Residencia getResidencia() {
-        return residencia;
+    public int getResidencia() {
+        return residencia.getResidenciaId();
     }
 
     public void setResidencia(Residencia residencia) {

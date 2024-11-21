@@ -79,37 +79,56 @@ public class UsuarioController {
         }
     }
 
-    // Endpoint para login do usuário
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response loginUsuario(Usuario usuarioInput) {
         try {
-            // Busca o usuário pelo email
-            Usuario usuarioPorEmail = usuarioService.buscarUsuarioPorEmail(usuarioInput.getEmail());
-
-            // Busca o usuário pelo nome
-            Usuario usuarioPorNome = usuarioService.buscarUsuarioPorNome(usuarioInput.getNome());
-
-            // Valida se o usuário existe com o nome e email fornecidos
-            if (usuarioPorEmail == null || usuarioPorNome == null ||
-                    !usuarioPorEmail.getEmail().equals(usuarioInput.getEmail()) ||
-                    !usuarioPorNome.getNome().equals(usuarioInput.getNome())) {
-
-                return Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("Credenciais inválidas! Nome ou email não correspondem.")
+            // Valida se o email foi fornecido
+            if (usuarioInput.getEmail() == null || usuarioInput.getEmail().isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("O campo 'email' é obrigatório!")
                         .build();
             }
 
-            // Retorna sucesso no login
+            // Busca o usuário pelo email
+            Usuario usuarioEncontrado = usuarioService.buscarUsuarioPorEmail(usuarioInput.getEmail());
+
+            // Verifica se o email existe no banco de dados
+            if (usuarioEncontrado == null) {
+                return Response.status(Response.Status.UNAUTHORIZED)
+                        .entity("Email não encontrado!")
+                        .build();
+            }
+
+            // Verifica se o nome corresponde ao encontrado no banco
+            if (!usuarioInput.getNome().equals(usuarioEncontrado.getNome())) {
+                return Response.status(Response.Status.UNAUTHORIZED)
+                        .entity("O nome fornecido não corresponde ao email!")
+                        .build();
+            }
+
+            // Verifica se a senha corresponde à encontrada no banco
+            if (!usuarioInput.getSenha().equals(usuarioEncontrado.getSenha())) {
+                return Response.status(Response.Status.UNAUTHORIZED)
+                        .entity("Senha incorreta!")
+                        .build();
+            }
+
+            // Login bem-sucedido
             return Response.status(Response.Status.OK)
-                    .entity("Login realizado com sucesso! Bem-vindo, " + usuarioPorNome.getNome() + ".")
+                    .entity("Login realizado com sucesso! Bem-vindo, " + usuarioEncontrado.getNome() + ".")
                     .build();
+
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Erro ao realizar o login: " + e.getMessage())
                     .build();
         }
     }
+
+
+
 }
+
