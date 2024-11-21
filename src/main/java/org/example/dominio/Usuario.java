@@ -4,13 +4,20 @@ public class Usuario {
     private String nome;
     private String email;
     private int id;
+    private String senha;
 
 
-    // Construtor padrão necessário para a desserialização
-    //Sem o construtor padrão, a biblioteca JSON não consegue criar o objeto vazio e, por isso, lança o erro:
-    //Cannot construct instance of 'org.example.dominio.Usuario'.
     public Usuario() {
     }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
 
     public int getId() {
         return id;

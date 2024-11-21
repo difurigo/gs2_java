@@ -20,4 +20,8 @@ public class UsuarioService {
     public Usuario buscarUsuarioPorNome(String nome) {
         return repositorioUsuarios.buscarUsuarioPorNome(nome);
     }
+
+    public void cadastrarUsuario(Usuario usuario) {
+        repositorioUsuarios.adicionar(usuario);
+    }
 }
