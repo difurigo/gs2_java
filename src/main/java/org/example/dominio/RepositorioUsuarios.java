@@ -5,5 +5,8 @@ public interface RepositorioUsuarios {
     void fechar();
     Usuario buscarUsuarioPorEmail(String email);
     Usuario buscarUsuarioPorId(int idUsuario);
+
+    Usuario buscarUsuarioPorNome(String nomeUsuario);
+
     int buscarIdUsuario(String email);
 }

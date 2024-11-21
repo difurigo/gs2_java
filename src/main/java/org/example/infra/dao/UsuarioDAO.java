@@ -1,6 +1,5 @@
 package org.example.infra.dao;
 
-import org.example.dominio.Endereco;
 import org.example.dominio.RepositorioUsuarios;
 import org.example.dominio.Usuario;
 
@@ -79,6 +78,31 @@ public class UsuarioDAO implements RepositorioUsuarios {
         }
         return usuario;
     }
+
+
+    @Override
+    public Usuario buscarUsuarioPorNome(String nomeUsuario) {
+        Usuario usuario = null;
+        try {
+            String sql = "SELECT * FROM tb_usuario WHERE nome = ?";
+            PreparedStatement comandoDeSelecao = conexao.prepareStatement(sql);
+            comandoDeSelecao.setString(1, nomeUsuario); // Passa o nome como parâmetro
+            ResultSet resultados = comandoDeSelecao.executeQuery();
+
+            while (resultados.next()) {
+                usuario = new Usuario(
+                        resultados.getString("nome"),
+                        resultados.getString("email"));
+            }
+
+            resultados.close();
+            comandoDeSelecao.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e); // Trata exceções de banco de dados
+        }
+        return usuario; // Retorna o usuário ou null se não encontrado
+    }
+
 
     @Override
     public int buscarIdUsuario(String email) {

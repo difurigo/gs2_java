@@ -26,7 +26,7 @@ public class ResidenciaDAO implements RepositorioResidencias {
             comandoDeInsercao.setInt(1, residencia.getIdUsuario());
             comandoDeInsercao.setObject(2, residencia.getEndereco());
             comandoDeInsercao.setObject(3, residencia.getBens());
-            comandoDeInsercao.setInt(4, residencia.getNumMoradores());
+            //comandoDeInsercao.setInt(4, residencia.getNumMoradores());
             comandoDeInsercao.execute();
             comandoDeInsercao.close();
         }catch(SQLException e) {
