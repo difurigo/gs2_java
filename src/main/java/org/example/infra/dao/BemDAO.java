@@ -13,30 +13,32 @@ import java.util.List;
 public class BemDAO implements RepositorioBem {
     private Connection conexao;
 
-    public BemDAO(Connection conexao) {
+    public BemDAO() {
         conexao = new ConnectionFactory().getConnection();
     }
 
-    public BemDAO() {
 
-    }
 
     @Override
     public void adcionarEletrodomestico(Bem bem) {
         try {
             String sql = "INSERT INTO tb_bens (residencia_id, tipo_bem, nome_bem, horas_diarias, emissao_CO2) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement comandoDeInsercao = conexao.prepareStatement(sql);
+
+            // Corrige o acesso ao ID da residência
             comandoDeInsercao.setInt(1, bem.getResidencia());
             comandoDeInsercao.setString(2, "Eletrodomestico");
             comandoDeInsercao.setString(3, bem.getNomeBem());
             comandoDeInsercao.setDouble(4, bem.getHorasDiarias());
             comandoDeInsercao.setDouble(5, 500);
+
             comandoDeInsercao.execute();
             comandoDeInsercao.close();
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public void adcionarCarro(Bem bem) {

@@ -18,6 +18,9 @@ public class Residencia {
         this.numMoradores = numMoradores;
         this.numResidencia = numResidencia;
     }
+    public Residencia() {
+
+    }
 
 
 

@@ -15,6 +15,9 @@ public class Bem {
 
     public Bem(int bemId, int residenciaId, String tipoBem, String nomeBem, double horasDiarias, String tipoVeiculo, double kmMensal, String tipoGas, double quantidadeMensal, double emissaoCo2, double potencia) {
     }
+    public Bem(){
+
+    }
 
     public double getPotencia() {
         return potencia;
