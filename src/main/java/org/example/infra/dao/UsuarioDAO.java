@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDAO implements RepositorioUsuarios {
 
@@ -66,6 +68,33 @@ public class UsuarioDAO implements RepositorioUsuarios {
         }
         return usuario;
     }
+
+    @Override
+    public List<Usuario> listarTodos() {
+        List<Usuario> usuarios = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM TB_USUARIO";
+            PreparedStatement comandoDeSelecao = conexao.prepareStatement(sql);
+
+            ResultSet resultados = comandoDeSelecao.executeQuery();
+            while (resultados.next()) {
+                Usuario usuario = new Usuario(
+                        resultados.getInt("ID_USUARIO"),
+                        resultados.getString("NOME_USUARIO"),
+                        resultados.getString("EMAIL_USUARIO"),
+                        resultados.getString("SENHA_USUARIO")
+                );
+                usuarios.add(usuario);
+            }
+
+            resultados.close();
+            comandoDeSelecao.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar todos os usuários: " + e.getMessage(), e);
+        }
+        return usuarios;
+    }
+
 
     @Override
     public Usuario buscarUsuarioPorId(int idUsuario) {

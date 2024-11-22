@@ -7,6 +7,7 @@ import org.example.service.UsuarioService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 
 @Path("usuario")
@@ -57,42 +58,62 @@ public class UsuarioController {
         }
     }
 
-    // Endpoint para cadastrar um usuário
     @POST
     @Path("/cadastro")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response cadastrarUsuario(Usuario usuarioInput) {
         try {
-            // Validação básica: nome e email não podem estar vazios
             if (usuarioInput.getNome() == null || usuarioInput.getNome().isEmpty() ||
                     usuarioInput.getEmail() == null || usuarioInput.getEmail().isEmpty()) {
                 return Response.status(Response.Status.BAD_REQUEST)
-                        .entity("Nome e email são obrigatórios!")
+                        .entity("{\"message\": \"Nome e email são obrigatórios!\"}")
                         .build();
             }
 
-            // Verifica se já existe um usuário com o mesmo email
             Usuario usuarioExistente = usuarioService.buscarUsuarioPorEmail(usuarioInput.getEmail());
             if (usuarioExistente != null) {
                 return Response.status(Response.Status.CONFLICT)
-                        .entity("Já existe um usuário cadastrado com esse email.")
+                        .entity("{\"message\": \"Já existe um usuário cadastrado com esse email.\"}")
                         .build();
             }
 
-            // Adiciona o usuário ao banco de dados
             usuarioService.cadastrarUsuario(usuarioInput);
 
-            // Retorna sucesso no cadastro
             return Response.status(Response.Status.CREATED)
-                    .entity("Usuário cadastrado com sucesso!")
+                    .entity("{\"message\": \"Usuário cadastrado com sucesso!\"}")
                     .build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Erro ao cadastrar o usuário: " + e.getMessage())
+                    .entity("{\"message\": \"Erro ao cadastrar o usuário: " + e.getMessage() + "\"}")
                     .build();
         }
     }
+
+
+    @GET
+    @Path("/todos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listarTodosUsuarios() {
+        try {
+            List<Usuario> usuarios = usuarioService.listarTodosUsuarios();
+
+            if (usuarios.isEmpty()) {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Nenhum usuário encontrado!")
+                        .build();
+            }
+
+            return Response.status(Response.Status.OK)
+                    .entity(usuarios)
+                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Erro ao listar usuários: " + e.getMessage())
+                    .build();
+        }
+    }
+
 
     @POST
     @Path("/login")

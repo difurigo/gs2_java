@@ -1,30 +1,21 @@
 package org.example.filters;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
+import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
-@WebFilter("/*")
-public class CorsFilter implements Filter {
-
+@Provider
+public class CorsFilter implements ContainerResponseFilter {
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-
-        httpResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-
-        if ("OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
-            httpResponse.setStatus(HttpServletResponse.SC_OK);
-            return;
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
+        if (!responseContext.getHeaders().containsKey("Access-Control-Allow-Origin")) {
+            responseContext.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:3000");
         }
-
-        chain.doFilter(request, response);
+        responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        responseContext.getHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
     }
 }
+
