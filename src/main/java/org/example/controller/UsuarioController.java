@@ -8,8 +8,23 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+
 @Path("usuario")
 public class UsuarioController {
+
+
+    @OPTIONS
+    @Path("/login")
+    public Response preflightLogin() {
+        return Response.ok()
+                .header("Access-Control-Allow-Origin", "http://localhost:3000")
+                .header("Access-Control-Allow-Methods", "POST, OPTIONS")
+                .header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+                .header("Access-Control-Allow-Credentials", "true")
+                .build();
+    }
+
+
 
     private final UsuarioService usuarioService;
 
@@ -82,51 +97,46 @@ public class UsuarioController {
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON) // Certifique-se de que a resposta seja JSON
     public Response loginUsuario(Usuario usuarioInput) {
         try {
-            // Valida se o email foi fornecido
             if (usuarioInput.getEmail() == null || usuarioInput.getEmail().isEmpty()) {
                 return Response.status(Response.Status.BAD_REQUEST)
-                        .entity("O campo 'email' é obrigatório!")
+                        .header("Access-Control-Allow-Origin", "http://localhost:3000")
+                        .entity("{\"message\": \"O campo 'email' é obrigatório!\"}")
                         .build();
             }
 
-            // Busca o usuário pelo email
             Usuario usuarioEncontrado = usuarioService.buscarUsuarioPorEmail(usuarioInput.getEmail());
 
-            // Verifica se o email existe no banco de dados
             if (usuarioEncontrado == null) {
                 return Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("Email não encontrado!")
+                        .header("Access-Control-Allow-Origin", "http://localhost:3000")
+                        .entity("{\"message\": \"Email não encontrado!\"}")
                         .build();
             }
 
-            // Verifica se o nome corresponde ao encontrado no banco
-            if (!usuarioInput.getNome().equals(usuarioEncontrado.getNome())) {
-                return Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("O nome fornecido não corresponde ao email!")
-                        .build();
-            }
-
-            // Verifica se a senha corresponde à encontrada no banco
             if (!usuarioInput.getSenha().equals(usuarioEncontrado.getSenha())) {
                 return Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("Senha incorreta!")
+                        .header("Access-Control-Allow-Origin", "http://localhost:3000")
+                        .entity("{\"message\": \"Senha incorreta!\"}")
                         .build();
             }
 
             // Login bem-sucedido
             return Response.status(Response.Status.OK)
-                    .entity("Login realizado com sucesso! Bem-vindo, " + usuarioEncontrado.getNome() + ".")
+                    .header("Access-Control-Allow-Origin", "http://localhost:3000")
+                    .entity("{\"message\": \"Login realizado com sucesso! Bem-vindo, " + usuarioEncontrado.getNome() + ".\"}")
                     .build();
 
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Erro ao realizar o login: " + e.getMessage())
+                    .header("Access-Control-Allow-Origin", "http://localhost:3000")
+                    .entity("{\"message\": \"Erro ao realizar o login: " + e.getMessage() + "\"}")
                     .build();
         }
     }
+
 
 
 
